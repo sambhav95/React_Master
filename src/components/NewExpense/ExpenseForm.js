@@ -5,7 +5,7 @@ function ExpenseForm (props){
     const [enterTitle,setEnterTitle] = useState('')
     const [enterAmount,setEnterAmount] = useState('')
     const [enterDate,setEnterDate] = useState('')
-
+    const [formError, setFormError] = useState({})
     /*Another way to use state*/
     // const [userInput,setUserData] = useState({
     //     enterTitle:'',
@@ -14,6 +14,8 @@ function ExpenseForm (props){
     // })
 
     const titleChangeHandler =(event) =>{
+        if(event.target.value.trim() !== ""){
+        }
         setEnterTitle(event.target.value)
         // setUserData({
         //     ...userInput,
@@ -24,6 +26,9 @@ function ExpenseForm (props){
         // })
     }
     const AmountChangeHandler =(event) =>{
+        if(event.target.value.trim() !== ""){
+           
+        }
         setEnterAmount(event.target.value)
 
         // setUserData({
@@ -36,6 +41,9 @@ function ExpenseForm (props){
         // })
     }
     const DateChangeHandler =(event) =>{
+        if(event.target.value.trim() !== ""){
+            
+        }
         setEnterDate(event.target.value) // update individuals values
      
         // setUserData({
@@ -63,25 +71,51 @@ function ExpenseForm (props){
             amount: +enterAmount,
             date: new Date(enterDate)
         }
-        props.saveData(expensedata)
-        setEnterTitle('')
-        setEnterAmount('')
-        setEnterDate('')
+
+        const errorValue = validate(expensedata)
+        if(JSON.stringify(errorValue) !== '{}'){
+            setFormError(errorValue)
+            return
+        } else{
+            props.saveData(expensedata)
+            setEnterTitle('')
+            setEnterAmount('')
+            setEnterDate('')
+        }
+
+    }
+
+    const validate =(values) =>{
+        const error ={};
+        if(values.title === ''){
+            error.title = 'Title Required'
+        }
+
+        if(values.amount === 0){
+            error.amount = 'Amount Required'
+        }
+        if(isNaN(values.date)){
+            error.date = 'Date Required'
+        }
+        return error
     }
 return(
     <form onSubmit={submitHandler}>
         <div className='new-expense__controls'>
             <div className='new-expense__control'>
             <label>Title</label>
-            <input type='text' value={enterTitle} onChange={titleChangeHandler}/>
+            <input  style ={{borderColor : formError.title ? 'red' : '#ccc'}} onChange={titleChangeHandler}/>
+            <p className="erro-msg">{formError.title}</p>
             </div>
             <div className='new-expense__control'>
             <label>Amount</label>
-            <input type='number' value={enterAmount}onChange={AmountChangeHandler}/>
+            <input type='number' style ={{borderColor : formError.amount ? 'red' : '#ccc'}} value={enterAmount}onChange={AmountChangeHandler}/>
+            <p className="erro-msg">{formError.amount}</p>
             </div>
             <div className='new-expense__control'>
             <label>Date</label>
-            <input type='date'value={enterDate} min="2019-01-01" onChange={DateChangeHandler}/>
+            <input type='date' style ={{borderColor : formError.date ? 'red' : '#ccc'}} value={enterDate} min="2019-01-01" onChange={DateChangeHandler}/>
+            <p className="erro-msg">{formError.date}</p>
             </div>
         </div>
         <div className='new-expense__actions'>

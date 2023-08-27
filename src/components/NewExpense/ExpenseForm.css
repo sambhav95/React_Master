@@ -47,3 +47,8 @@
     border-color: transparent;
     background-color: transparent;
   }
+  .erro-msg{
+    color:red;
+    font-size: 15px;
+    font-weight: 700;
+  }

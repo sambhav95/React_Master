@@ -11,6 +11,7 @@ const NewExpense=(props)=>{
             ...enteredexpense,
             id: Math.random().toString()
         }
+        setFormVisible(false)
         props.newData(expdata)
     }
     const cancelfunc =() =>{
