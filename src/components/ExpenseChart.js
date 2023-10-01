@@ -1,7 +1,9 @@
 import Chart from './Chart/Chart'
 import ContextData from '../store/context'
+import { useContext } from 'react'
 
 const ExpenseChart = (props) =>{
+    const data = useContext(ContextData)
     const ChartData = [
         {label:"Jan",value:0},
         {label:"Feb",value:0},
@@ -21,15 +23,10 @@ const ExpenseChart = (props) =>{
         ChartData[expenseMonth].value += expense.amount
     }
     return (
-        <ContextData.Consumer>
-            {(ele)=>{
-                
-                return (<div>
-                    <h1 style={{color:"white"}}>{ele}</h1>
-                    <Chart dataPoints={ChartData}/>
-                </div> )
-            }}
-        </ContextData.Consumer>
+        <div>
+            <h1 style={{ color: "white" }}>{data}</h1>
+            <Chart dataPoints={ChartData} />
+        </div> 
         )
 }
 
