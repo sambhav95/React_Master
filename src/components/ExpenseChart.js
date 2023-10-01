@@ -1,4 +1,5 @@
 import Chart from './Chart/Chart'
+import ContextData from '../store/context'
 
 const ExpenseChart = (props) =>{
     const ChartData = [
@@ -19,7 +20,17 @@ const ExpenseChart = (props) =>{
         const expenseMonth = expense.date.getMonth();
         ChartData[expenseMonth].value += expense.amount
     }
-    return <Chart dataPoints={ChartData}/>
+    return (
+        <ContextData.Consumer>
+            {(ele)=>{
+                
+                return (<div>
+                    <h1 style={{color:"white"}}>{ele}</h1>
+                    <Chart dataPoints={ChartData}/>
+                </div> )
+            }}
+        </ContextData.Consumer>
+        )
 }
 
 export default ExpenseChart

@@ -6,6 +6,8 @@ import NewExpense from './components/NewExpense/NewExpense';
 import ExpenseFilter from './components/ExpenseFilter/Expensefilter'
 import { useState } from 'react';
 import ExpenseChart from './components/ExpenseChart'
+import ContextData from './store/context';
+
 function App() {
   const expenseData =[{id:'1',title:'Car Insurance', amount:294, date: new Date(2019,2,28)},
   {id:'2',title:'New Tv', amount:294, date: new Date(2021,2,28)},
@@ -35,6 +37,7 @@ function App() {
       <Expense/>
       </div> */}
       <NewExpense newData={addData}/>
+      <ContextData.Provider value={'Expense Data Details'}>
       <Card>
         <ExpenseChart expenses={dataexpense}/>
         <ExpenseFilter expensesData= {expenseData}
@@ -45,6 +48,7 @@ function App() {
       {/* <ExpenseDetails expensesData= {expenseData} title={expenseData[0].title} 
       /> */}
       </Card>
+      </ContextData.Provider>
     </div>
   );
 }

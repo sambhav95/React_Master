@@ -1,10 +1,16 @@
 import './ExpenseForm.css'
 import { useState} from 'react'
+import { useRef } from 'react'
 function ExpenseForm (props){
+    /*Ref Use*/
+    const titleInputRef = useRef()
+    const amtInputRef = useRef()
+    const dateInputRef = useRef()
+
     /*One way to use state*/
-    const [enterTitle,setEnterTitle] = useState('')
-    const [enterAmount,setEnterAmount] = useState('')
-    const [enterDate,setEnterDate] = useState('')
+    // const [enterTitle,setEnterTitle] = useState('')
+    // const [enterAmount,setEnterAmount] = useState('')
+    // const [enterDate,setEnterDate] = useState('')
     const [formError, setFormError] = useState({})
     /*Another way to use state*/
     // const [userInput,setUserData] = useState({
@@ -13,48 +19,48 @@ function ExpenseForm (props){
     //     enterDate:''
     // })
 
-    const titleChangeHandler =(event) =>{
-        if(event.target.value.trim() !== ""){
-        }
-        setEnterTitle(event.target.value)
-        // setUserData({
-        //     ...userInput,
-        //     enterTitle: event.target.value
-        // })
-        // setUserData((prevState)=>{
-        //     return {...prevState,enterTitle: event.target.value}
-        // })
-    }
-    const AmountChangeHandler =(event) =>{
-        if(event.target.value.trim() !== ""){
+    // const titleChangeHandler =(event) =>{
+    //     if(event.target.value.trim() !== ""){
+    //     }
+    //     setEnterTitle(event.target.value)
+    //     // setUserData({
+    //     //     ...userInput,
+    //     //     enterTitle: event.target.value
+    //     // })
+    //     // setUserData((prevState)=>{
+    //     //     return {...prevState,enterTitle: event.target.value}
+    //     // })
+    // }
+    // const AmountChangeHandler =(event) =>{
+    //     if(event.target.value.trim() !== ""){
            
-        }
-        setEnterAmount(event.target.value)
+    //     }
+    //     setEnterAmount(event.target.value)
 
-        // setUserData({
-        //     ...userInput,
-        //     enterAmount: event.target.value
-        // })
+    //     // setUserData({
+    //     //     ...userInput,
+    //     //     enterAmount: event.target.value
+    //     // })
 
-        // setUserData((prevState)=>{
-        //     return {...prevState,enterAmount: event.target.value}
-        // })
-    }
-    const DateChangeHandler =(event) =>{
-        if(event.target.value.trim() !== ""){
+    //     // setUserData((prevState)=>{
+    //     //     return {...prevState,enterAmount: event.target.value}
+    //     // })
+    // }
+    // const DateChangeHandler =(event) =>{
+    //     if(event.target.value.trim() !== ""){
             
-        }
-        setEnterDate(event.target.value) // update individuals values
+    //     }
+    //     setEnterDate(event.target.value) // update individuals values
      
-        // setUserData({
-        //     ...userInput,
-        //     enterDate: event.target.value // not perferable because sometime the state value is not actual previous value
-        // })
+    //     // setUserData({
+    //     //     ...userInput,
+    //     //     enterDate: event.target.value // not perferable because sometime the state value is not actual previous value
+    //     // })
 
-        // setUserData((prevState)=>{
-        //     return {...prevState,enterDate: event.target.value} // perfered because react schedule state updates and it guarantee to get you previous state only
-        // })
-    }
+    //     // setUserData((prevState)=>{
+    //     //     return {...prevState,enterDate: event.target.value} // perfered because react schedule state updates and it guarantee to get you previous state only
+    //     // })
+    // }
 
     // const inputChangeHandler = (identifier,value) =>{
     //     if(identifier === 'title'){
@@ -67,9 +73,9 @@ function ExpenseForm (props){
     const submitHandler = (event) =>{
         event.preventDefault();
         const expensedata ={
-            title: enterTitle,
-            amount: +enterAmount,
-            date: new Date(enterDate)
+            title: titleInputRef.current.value,
+            amount: +amtInputRef.current.value,
+            date: new Date(dateInputRef.current.value)
         }
 
         const errorValue = validate(expensedata)
@@ -78,9 +84,13 @@ function ExpenseForm (props){
             return
         } else{
             props.saveData(expensedata)
-            setEnterTitle('')
-            setEnterAmount('')
-            setEnterDate('')
+            titleInputRef.current.value = '';
+            amtInputRef.current.value = ''
+            dateInputRef.current.value = ''
+
+            // setEnterTitle('')
+            // setEnterAmount('')
+            // setEnterDate('')
         }
 
     }
@@ -104,17 +114,20 @@ return(
         <div className='new-expense__controls'>
             <div className='new-expense__control'>
             <label>Title</label>
-            <input  style ={{borderColor : formError.title ? 'red' : '#ccc'}} onChange={titleChangeHandler}/>
+            <input  style ={{borderColor : formError.title ? 'red' : '#ccc'}}
+            ref={titleInputRef}/>
             <p className="erro-msg">{formError.title}</p>
             </div>
             <div className='new-expense__control'>
             <label>Amount</label>
-            <input type='number' style ={{borderColor : formError.amount ? 'red' : '#ccc'}} value={enterAmount}onChange={AmountChangeHandler}/>
+            <input type='number' style ={{borderColor : formError.amount ? 'red' : '#ccc'}}
+            ref={amtInputRef}/>
             <p className="erro-msg">{formError.amount}</p>
             </div>
             <div className='new-expense__control'>
             <label>Date</label>
-            <input type='date' style ={{borderColor : formError.date ? 'red' : '#ccc'}} value={enterDate} min="2019-01-01" onChange={DateChangeHandler}/>
+            <input type='date' style ={{borderColor : formError.date ? 'red' : '#ccc'}}  min="2019-01-01"
+            ref={dateInputRef}/>
             <p className="erro-msg">{formError.date}</p>
             </div>
         </div>
